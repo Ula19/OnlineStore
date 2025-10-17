@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.core.validators import FileExtensionValidator
 
 from uuslug import uuslug
@@ -16,7 +17,6 @@ class Brand(models.Model):
 
     class Meta:
         ordering = ['name']
-
         verbose_name = 'Название бренда'
         verbose_name_plural = 'Название брендов'
 
@@ -26,6 +26,8 @@ class Brand(models.Model):
     def save(self, *args, **kwargs):
         self.slug = uuslug(self.name, instance=self)
         super().save(*args, **kwargs)
+
+    # def get_absolute_url(self):
 
 
 class Category(models.Model):
@@ -40,7 +42,6 @@ class Category(models.Model):
 
     class Meta:
         ordering = ['name']
-
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
@@ -50,6 +51,9 @@ class Category(models.Model):
     def save(self, *args, **kwargs):
         self.slug = uuslug(self.name, instance=self)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('product_list_by_category', kwargs={'slug': self.slug})
 
 
 class Product(models.Model):
@@ -69,19 +73,16 @@ class Product(models.Model):
     image = models.ImageField(verbose_name='Изображение товара',
                               default='images/default.jpg',
                               upload_to='products/',
-                              validators=[FileExtensionValidator(allowed_extensions=('jpg', 'jpeg',))],
+                              validators=[FileExtensionValidator(allowed_extensions=('jpg', 'jpeg', 'webp',))],
                               blank=True)
 
     class Meta:
         ordering = ['available', '-count', 'name']
-
         indexes = [
             models.Index(fields=['name']),
             models.Index(fields=['brand', 'category']),
             models.Index(fields=['price', 'count']),
         ]
-
-
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
 
@@ -91,3 +92,6 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         self.slug = uuslug(self.name, instance=self)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('product_detail', kwargs={'slug': self.slug})
