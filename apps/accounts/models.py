@@ -19,3 +19,10 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+class SubscribedUsers(models.Model):
+    email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.email

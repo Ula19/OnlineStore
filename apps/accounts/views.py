@@ -10,9 +10,9 @@ from django.views.generic import CreateView, UpdateView, TemplateView
 
 
 
-
+from .tasks import send_subscribe_email
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, ProfileUpdateForm, EmailSubscribeForm
-from .models import CustomUser
+from .models import CustomUser, SubscribedUsers
 
 
 
@@ -24,7 +24,6 @@ class RegisterView(SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        inactive_user = send_verification_email(self.request, form)
         login(self.request, self.object)  # автоматический вход после регистрации
         return response
 
@@ -99,9 +98,8 @@ def email_subscribe(request):
         form = EmailSubscribeForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            subject = "Оптово-розничный интернет-магазин."
-            message = 'Вы успешно подписались на нашу рассылку!'
-            send_mail(subject, message, settings.EMAIL_HOST_USER, [cd['email']])
+            send_subscribe_email.delay(cd)
+            SubscribedUsers.objects.update_or_create(email=cd['email'])
             return redirect('index')
     else:
         form = EmailSubscribeForm()

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from unfold.admin import ModelAdmin
 
-from .models import CustomUser
+from .models import CustomUser, SubscribedUsers
 
 
 
@@ -13,3 +13,8 @@ class CustomUserAdmin(ModelAdmin):
 
     search_fields = ('email', 'username')
     ordering = ('email',)
+
+
+@admin.register(SubscribedUsers)
+class SubscribedUsersAdmin(ModelAdmin):
+    pass
