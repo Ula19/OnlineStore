@@ -83,7 +83,9 @@
                         </div>
 
                         <div class="short_overview my-5">
+                            {% autoescape off %}
                             <p>{{ product.description }}</p>
+                            {% endautoescape %}
                         </div>
 
                         <!-- Add to Cart Form -->

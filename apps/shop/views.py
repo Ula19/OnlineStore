@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView, ListView, DetailView
 from django.shortcuts import get_object_or_404
 from django.contrib.postgres.search import TrigramSimilarity
+from django.core.cache import cache
 
 from .models import Category, Brand, Product
 from .forms import SearchForm
@@ -9,10 +10,12 @@ from .forms import SearchForm
 class IndexView(ListView):
     template_name = 'index.html'
     context_object_name = 'products'
-    extra_context = {'index': True}
+    extra_context = {'index': True, 'title': 'Главная страница'}
 
     def get_queryset(self):
-        queryset = Product.objects.all().order_by('-create')[:9]
+        queryset = cache.get_or_set('cashed_products_last_list',
+                                    Product.objects.select_related('category').order_by('-create')[:9])
+
         return queryset
 
 
@@ -30,11 +33,13 @@ class ProductListView(ListView):
         ...
         """
         ordering = self.request.GET.get('ordering', self.ordering)
-        queryset = Product.objects.all().order_by(ordering)
+        queryset = cache.get_or_set('cashed_product_list', Product.objects.select_related('category', 'brand').order_by(ordering))
         slug = self.kwargs.get('slug')
         if slug:
             self.category = get_object_or_404(Category, slug=self.kwargs['slug'])
-            queryset = Product.objects.filter(category=self.category).order_by(ordering)
+            queryset = cache.get_or_set('cashed_product_list_by_category',
+                                        Product.objects.filter(category=self.category).order_by(ordering), 100)
+            # queryset = Product.objects.filter(category=self.category).order_by(ordering)
         return queryset
     
     def get_paginate_by(self, queryset):
@@ -46,6 +51,8 @@ class ProductListView(ListView):
         ...
         """
         context = super().get_context_data(*args, **kwargs)
+        context['title'] = 'Товары'
+
         context['categories'] = Category.objects.all()
         context['brands'] = Brand.objects.all()
 
@@ -64,7 +71,7 @@ class ProductDetailView(DetailView):
     model = Product
     context_object_name = 'product'
     template_name = 'product-details.html'
-    extra_context = {'product_detail': True}
+    extra_context = {'product_detail': True, 'title': 'Детальная информация'}
 
 
 # class SearchResultView(ListView):
@@ -118,6 +125,8 @@ class SearchResultView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['title'] = 'Поиск'
+
         context['form'] = SearchForm(self.request.GET)
 
         if 'query' in self.request.GET:

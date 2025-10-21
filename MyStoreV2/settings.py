@@ -32,6 +32,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'unfold',
+    "unfold.contrib.forms",
+
     'apps.accounts.apps.AccountsConfig',
 
     'django.contrib.admin',
@@ -46,6 +49,9 @@ INSTALLED_APPS = [
 
     'debug_toolbar',
     'django_extensions',
+    'social_django',
+    'django_recaptcha',
+
 ]
 
 MIDDLEWARE = [
@@ -73,6 +79,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -114,6 +123,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -133,6 +148,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # Путь к общей папке static в проекте
+    BASE_DIR / 'media'
 ]
 
 MEDIA_URL = '/media/'
@@ -168,6 +184,7 @@ LOGIN_URL = 'login'           # страница для входа
 
 # Конфигурация сервера электронной почты
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ulug.2000.2@gmail.com'
 EMAIL_HOST_PASSWORD = 'evup rqpw uuts cgqd'
@@ -175,3 +192,21 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
+
+
+
+AUTHENTICATION_BACKENDS = (
+    # 'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# social auth configs for google
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '663377030560-c797uvbv7bh6v19g8o8vr5ht77febgk8.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+
+RECAPTCHA_PUBLIC_KEY = '6LepLZorAAAAAPiZtZ_TKkIY-Gdo5RcyumcA7XXy'
+RECAPTCHA_PRIVATE_KEY = '6LepLZorAAAAAKvUtuYxByppwJPBp0rUquAsQAJo'
+

@@ -45,11 +45,16 @@
                             {{ form.password2 }}
                         </div>
 
+                        <div class="mb-3">
+                            {{ form.recaptcha }}
+                      </div>
+
                         <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
                     </form>
 
                     <div class="text-center mt-3">
                         <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войдите</a></p>
+                        <p>Войти через <a href="{% url 'social:begin' 'google-oauth2' %}">Google</a></p>
                     </div>
                 </div>
             </div>

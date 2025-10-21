@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model, authenticate
 
+from django_recaptcha.fields import ReCaptchaField
+
 from apps.accounts.models import CustomUser
 
 User = get_user_model()
@@ -20,6 +22,8 @@ class CustomUserCreationForm(UserCreationForm):
             'placeholder': 'Введите имя пользователя'
         })
     )
+
+    recaptcha = ReCaptchaField()
 
     class Meta:
         model = User
@@ -40,13 +44,10 @@ class CustomAuthenticationForm(AuthenticationForm):
             'placeholder': 'Введите ваш email'
         })
     )
-    password = forms.PasswordInput(
-        # label='Пароль',
-        # widget=forms.PasswordInput(attrs={
-        #     'class': 'form-control',
-        #     'placeholder': 'Введите пароль'
-        # })
-    )
+    password = forms.PasswordInput()
+
+    recaptcha = ReCaptchaField()
+
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -59,10 +60,14 @@ class CustomAuthenticationForm(AuthenticationForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email', 'avatar']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'readonly': 'readonly', }),
         }
+
+
+class EmailSubscribeForm(forms.Form):
+    email = forms.EmailField()

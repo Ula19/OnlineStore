@@ -12,13 +12,16 @@ class Brand(models.Model):
     1) Добавить Hash Index
     """
 
-    name = models.CharField(verbose_name='Названии бренда', max_length=150, db_index=True, unique=True)
+    name = models.CharField(verbose_name='Названии бренда', max_length=150, unique=True)
     slug = models.SlugField(verbose_name='URL бренда', max_length=150, editable=False, unique=True)
 
     class Meta:
         ordering = ['name']
         verbose_name = 'Название бренда'
         verbose_name_plural = 'Название брендов'
+        indexes = [
+            models.Index(fields=['name'])
+        ]
 
     def __str__(self):
         return self.name
@@ -37,13 +40,17 @@ class Category(models.Model):
     1) Добавить Hash Index
     """
 
-    name = models.CharField(verbose_name='Названии категории', max_length=150, db_index=True, unique=True)
+    name = models.CharField(verbose_name='Названии категории', max_length=150, unique=True)
     slug = models.SlugField(verbose_name='URL категории', max_length=150, editable=False, unique=True)
 
     class Meta:
         ordering = ['name']
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+        indexes = [
+            models.Index(fields=['name'])
+        ]
+
 
     def __str__(self):
         return self.name
@@ -80,7 +87,8 @@ class Product(models.Model):
         ordering = ['available', '-count', 'name']
         indexes = [
             models.Index(fields=['name']),
-            models.Index(fields=['brand', 'category']),
+            models.Index(fields=['-create']),
+            # models.Index(fields=['brand__name', 'category__name']),
             models.Index(fields=['price', 'count']),
         ]
         verbose_name = 'Товар'

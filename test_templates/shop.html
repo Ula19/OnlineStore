@@ -161,9 +161,11 @@
                                     <li class="page-item">{{page_number}}</li>
                                 {% else %}
                                     <li class="page-item {% if page_number == page_obj.number %}active {% endif %}" aria-current="page">
-                                        <a href="?page={{ page_number }}" class="page-link">
+                                        {% with current_params=request.GET.urlencode %}
+                                        <a href="?page={{ page_number }}{% if current_params %}&{{ current_params|cut:'page=' }}{% endif %}" class="page-link">
                                             {{page_number}}
                                         </a>
+                                        {% endwith %}
                                     </li>
                                 {% endif %}
                             {% endfor %}
