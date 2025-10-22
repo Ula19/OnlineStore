@@ -108,7 +108,5 @@ def email_subscribe(request):
             return redirect('index')
     else:
         form = EmailSubscribeForm()
-    # print(form)
 
-    # return render(request, 'email_subscribe.html', {'form': form})
     return render(request, 'base.html', {'form': form})

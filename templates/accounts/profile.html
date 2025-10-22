@@ -24,9 +24,13 @@
                         <!-- Аватар и основная информация -->
                         <div class="col-md-4 text-center">
                             <div class="mb-4">
-                                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center"
-                                     style="width: 150px; height: 150px;">
-                                    <span class="fs-1 text-muted">{{ user.username|first|upper }}</span>
+                                <div class="current-avatar mb-3">
+                                    <img src="{{ user.avatar.url }}"
+                                         alt="Текущий аватар"
+                                         class="avatar-preview rounded-circle"
+                                         width="150"
+                                         height="150"
+                                         id="avatar-preview">
                                 </div>
                             </div>
                             <h4>{{ user.username }}</h4>

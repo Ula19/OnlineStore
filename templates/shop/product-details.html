@@ -10,8 +10,8 @@
                 <div class="col-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mt-50">
-                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{% url 'product_list' %}">Shop</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'product_list' %}">Магазин</a></li>
                             <li class="breadcrumb-item"><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></li>
                             <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
                         </ol>
@@ -24,27 +24,27 @@
                     <div class="single_product_thumb">
                         <div id="product_details_slider" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
-                                <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{ product.image.url }});">
+                                <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{ product.image1.url }});">
                                 </li>
-                                <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url({{ product.image.url }});">
+                                <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url({{ product.image2.url }});">
                                 </li>
-                                <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url({{ product.image.url }});">
+                                <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url({{ product.image3.url }});">
                                 </li>
                             </ol>
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <a class="gallery_img" href="{{ product.image.url }}">
-                                        <img class="d-block w-100" src="{{ product.image.url }}" alt="First slide">
+                                    <a class="gallery_img" href="{{ product.image1.url }}">
+                                        <img class="d-block w-100" src="{{ product.image1.url }}" alt="First slide">
                                     </a>
                                 </div>
                                 <div class="carousel-item">
-                                    <a class="gallery_img" href="{{ product.image.url }}">
-                                        <img class="d-block w-100" src="{{ product.image.url }}" alt="Second slide">
+                                    <a class="gallery_img" href="{{ product.image2.url }}">
+                                        <img class="d-block w-100" src="{{ product.image2.url }}" alt="Second slide">
                                     </a>
                                 </div>
                                 <div class="carousel-item">
-                                    <a class="gallery_img" href="{{ product.image.url }}">
-                                        <img class="d-block w-100" src="{{ product.image.url }}" alt="Third slide">
+                                    <a class="gallery_img" href="{{ product.image3.url }}">
+                                        <img class="d-block w-100" src="{{ product.image3.url }}" alt="Third slide">
                                     </a>
                                 </div>
 
@@ -76,9 +76,9 @@
 
                             <!-- Avaiable -->
                             {% if product.available %}
-                                <p class="avaibility"><i class="fa fa-circle"></i> In Stock</p>
+                                <p class="avaibility"><i class="fa fa-circle"></i> В наличии</p>
                             {% else %}
-                                <p class="anavaibility"><i class="fa fa-circle"></i> Not available</p>
+                                <p class="anavaibility"><i class="fa fa-circle"></i> Нет в наличии</p>
                             {% endif %}
                         </div>
 

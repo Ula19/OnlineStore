@@ -77,11 +77,21 @@ class Product(models.Model):
     available = models.BooleanField(verbose_name='Активный товар', default=True)
     create = models.DateTimeField(verbose_name='Время создания', auto_now_add=True)
     update = models.DateTimeField(verbose_name='Время обновления', auto_now=True)
-    image = models.ImageField(verbose_name='Изображение товара',
-                              default='images/default.jpg',
-                              upload_to='products/',
+    image1 = models.ImageField(verbose_name='Изображение товара1',
+                              default='images/default.jpeg',
+                              upload_to='products/image1/',
                               validators=[FileExtensionValidator(allowed_extensions=('jpg', 'jpeg', 'webp',))],
                               blank=True)
+    image2 = models.ImageField(verbose_name='Изображение товара2',
+                               default='images/default.jpeg',
+                               upload_to='products/image2/',
+                               validators=[FileExtensionValidator(allowed_extensions=('jpg', 'jpeg', 'webp',))],
+                               blank=True)
+    image3 = models.ImageField(verbose_name='Изображение товара3',
+                               default='images/default.jpeg',
+                               upload_to='products/image3/',
+                               validators=[FileExtensionValidator(allowed_extensions=('jpg', 'jpeg', 'webp',))],
+                               blank=True)
 
     class Meta:
         ordering = ['available', '-count', 'name']

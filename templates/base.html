@@ -39,7 +39,7 @@
                     <div class="search-content">
                         <form role="search" action="{% url 'search_result' %}" method="get">
                             <input type="text" required aria-invalid="true" name="query" aria-describedby="id_query_error"
-                                   id="id_query" placeholder="Type your keyword..." aria-label="Поиск">
+                                   id="id_query" placeholder="Введите запрос..." aria-label="Поиск">
                             <button type="submit"><img src="{% static 'img/core-img/search.png' %}"></button>
                         </form>
                     </div>
@@ -77,18 +77,18 @@
             <!-- Amado Nav -->
             <nav class="amado-nav">
                 <ul>
-                    <li {% if index %}class="active"{% endif %}><a href="{% url 'index' %}">Home</a></li>
-                    <li {% if shop %}class="active"{% endif %}><a href="{% url 'product_list' %}">Shop</a></li>
-<!--                    <li {% if cart %}class="active"{% endif %}><a href="{% url 'cart' %}">Cart</a></li>-->
-<!--                    <li {% if checkout %}class="active"{% endif %}><a href="{% url 'checkout' %}">Checkout</a></li>-->
+                    <li {% if index %}class="active"{% endif %}><a href="{% url 'index' %}">Главная</a></li>
+                    <li {% if shop %}class="active"{% endif %}><a href="{% url 'product_list' %}">Магазин</a></li>
+<!--                    <li {% if cart %class="active"{% endif %><a href="{% url 'cart' %">Cart</a></li>-->
+<!--                    <li {% if checkout %class="active"{% endif %><a href="{% url 'checkout' %">Checkout</a></li>-->
                     {% if not user.is_authenticated %}
                     <li {% if login %}class="active"{% endif %}><a href="{% url 'login' %}">Войти</a></li>
                     <li {% if register %}class="active"{% endif %}><a href="{% url 'register' %}">Регистрация</a></li>
                     {% else %}
-                    <li {% if profile %}class="active"{% endif %}><a href="{% url 'profile' %}">Account</a></li>
+                    <li {% if profile %}class="active"{% endif %}><a href="{% url 'profile' %}">Аккаунт</a></li>
                     {% endif %}
                     {% if user.is_superuser %}
-                    <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                    <li><a href="{% url 'admin:index' %}">Админ</a></li>
                     {% endif %}
                 </ul>
             </nav>
@@ -104,7 +104,7 @@
             <div class="cart-fav-search mb-100">
 <!--                <a href="cart.html" class="cart-nav"><img src="{% static 'img/core-img/cart.png' %}" alt=""> Cart <span>(0)</span></a>-->
 <!--                <a href="#" class="fav-nav"><img src="{% static 'img/core-img/favorites.png' %}" alt=""> Favourite</a>-->
-                <a href="#" class="search-nav"><img src="{% static 'img/core-img/search.png' %}" alt=""> Search</a>
+                <a href="#" class="search-nav"><img src="{% static 'img/core-img/search.png' %}" alt=""> Поиск</a>
             </div>
             <!-- Social Button -->
             <div class="social-info d-flex justify-content-between">
@@ -128,8 +128,7 @@
                 <!-- Newsletter Text -->
                 <div class="col-12 col-lg-6 col-xl-7">
                     <div class="newsletter-text mb-100">
-                        <h2>Subscribe for a <span>25% Discount</span></h2>
-                        <p>Подпишитесь на нашу рассылку, и получите скидку!</p>
+                        <h2>Подпишитесь на нашу рассылку, <span>и получите скидку!</span></h2>
                     </div>
                 </div>
                 <!-- Newsletter Form -->
@@ -137,8 +136,8 @@
                     <div class="newsletter-form mb-100">
                         <form method="post" action="{% url 'email' %}">
                             {% csrf_token %}
-                            <input type="email" name="email" class="nl-email" placeholder="Your E-mail" maxlength="320" required id="id_email">
-                            <input type="submit" value="Subscribe">
+                            <input type="email" name="email" class="nl-email" placeholder="Ваш адрес электронной почты" maxlength="320" required id="id_email">
+                            <input type="submit" value="Подписаться">
                         </form>
                     </div>
                 </div>
@@ -179,16 +178,16 @@ Copyright &copy;2025 All rights reserved | This template is made with <i class="
                                 <div class="collapse navbar-collapse" id="footerNavContent">
                                     <ul class="navbar-nav ml-auto">
                                         <li class="nav-item {% if index %}active{% endif %}">
-                                            <a class="nav-link" href="{% url 'index' %}">Home</a>
+                                            <a class="nav-link" href="{% url 'index' %}">Главная</a>
                                         </li>
                                         <li class="nav-item {% if shop %}active{% endif %}">
-                                            <a class="nav-link" href="{% url 'product_list' %}">Shop</a>
+                                            <a class="nav-link" href="{% url 'product_list' %}">Магазин</a>
                                         </li>
-<!--                                        <li class="nav-item {% if cart %}active{% endif %}">-->
-<!--                                            <a class="nav-link" href="{% url 'cart' %}">Cart</a>-->
+<!--                                        <li class="nav-item {% if cart %active{% endif %">-->
+<!--                                            <a class="nav-link" href="{% url 'cart' %">Cart</a>-->
 <!--                                        </li>-->
-<!--                                        <li class="nav-item {% if checkout %}active{% endif %}">-->
-<!--                                            <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>-->
+<!--                                        <li class="nav-item {% if checkout %active{% endif %">-->
+<!--                                            <a class="nav-link" href="{% url 'checkout' %">Checkout</a>-->
                                         </li>
                                     </ul>
                                 </div>

@@ -8,10 +8,10 @@ class CustomUser(AbstractUser):
     username = models.CharField(max_length=150)
     avatar = models.ImageField(
         verbose_name='Аватар',
-        default='user_avatars/default_user.png',
+        default='images/default_user.png',
         upload_to='user_avatars/',
         blank=True,
-        validators=[FileExtensionValidator(allowed_extensions=('jpg', 'png', 'jpeg',))],
+        validators=[FileExtensionValidator(allowed_extensions=('jpg', 'png', 'jpeg', 'webp'))],
     )
 
     USERNAME_FIELD = 'email'

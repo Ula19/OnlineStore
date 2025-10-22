@@ -2,72 +2,156 @@
 
 {% block content %}
 <div class="single-product-area section-padding-100 clearfix">
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Редактирование профиля</h3>
-                </div>
-                <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Редактирование профиля</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
 
-                        {% if form.errors %}
-                            <div class="alert alert-danger">
-                                {% for field, errors in form.errors.items %}
-                                    {% for error in errors %}
-                                        <p>{{ error }}</p>
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    {% for field, errors in form.errors.items %}
+                                        {% for error in errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
                                     {% endfor %}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+                                </div>
+                            {% endif %}
 
-                        <div class="row">
-<!--                            <div class="col-md-6">-->
-<!--                                <div class="mb-3">-->
-<!--                                    <label class="form-label">avatar</label>-->
-<!--                                    {{ form.avatar }}-->
-<!--                                </div>-->
-<!--                            </div>-->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Имя пользователя</label>
-                                    {{ form.username }}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Email</label>
-                                    {{ form.email }}
-                                </div>
-                            </div>
-                        </div>
+                            <!-- Блок аватара -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="avatar-section text-center">
+                                        <!-- Текущий аватар -->
+                                        <div class="current-avatar mb-3">
+                                            <img src="{{ user.avatar.url }}"
+                                                 alt="Текущий аватар"
+                                                 class="avatar-preview rounded-circle"
+                                                 width="150"
+                                                 height="150"
+                                                 id="avatar-preview">
+                                        </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Имя</label>
-                                    {{ form.first_name }}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Фамилия</label>
-                                    {{ form.last_name }}
-                                </div>
-                            </div>
-                        </div>
+                                        <!-- Поле загрузки с кастомным дизайном -->
+                                        <div class="avatar-upload">
+                                            <label for="id_avatar" class="btn btn-outline-primary btn-upload">
+                                                <i class="bi bi-camera"></i> Сменить фото
+                                            </label>
+                                            <input type="file" name="avatar" accept="image/*" id="id_avatar" class="d-none">
+                                            <small class="form-text text-muted d-block mt-2">
+                                                Рекомендуемый размер: 150x150px. Поддерживаются JPG, PNG, JPEG, WebP.
+                                            </small>
+                                        </div>
 
-                        <div class="d-flex justify-content-between">
-                            <a href="{% url 'profile' %}" class="btn btn-secondary">Отмена</a>
-                            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
-                        </div>
-                    </form>
+                                        <!-- Уведомление о выборе файла -->
+                                        <div id="avatar-feedback" class="mt-2"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Имя пользователя</label>
+                                        {{ form.username }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        {{ form.email }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Имя</label>
+                                        {{ form.first_name }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Фамилия</label>
+                                        {{ form.last_name }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'profile' %}" class="btn btn-secondary">Отмена</a>
+                                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</div>
+
+<style>
+.avatar-preview {
+    object-fit: cover;
+    border: 3px solid #dee2e6;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-upload {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+}
+
+#id_avatar {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+}
+
+.avatar-section {
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    border: 2px dashed #dee2e6;
+}
+
+.btn-upload:hover {
+    background-color: #007bff;
+    color: white;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const avatarInput = document.getElementById('id_avatar');
+    const avatarPreview = document.getElementById('avatar-preview');
+
+    avatarInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                avatarPreview.src = e.target.result;
+                avatarPreview.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    avatarPreview.style.transform = 'scale(1)';
+                }, 300);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+});
+</script>
 {% endblock %}

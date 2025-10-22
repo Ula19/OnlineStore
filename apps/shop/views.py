@@ -8,7 +8,7 @@ from .forms import SearchForm
 
 
 class IndexView(ListView):
-    template_name = 'index.html'
+    template_name = 'shop/index.html'
     context_object_name = 'products'
     extra_context = {'index': True, 'title': 'Главная страница'}
 
@@ -20,7 +20,7 @@ class IndexView(ListView):
 
 
 class ProductListView(ListView):
-    template_name = 'shop.html'
+    template_name = 'shop/shop.html'
     context_object_name = 'products'
     paginate_by = 4
     ordering = 'price'
@@ -102,45 +102,16 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
     context_object_name = 'product'
-    template_name = 'product-details.html'
+    template_name = 'shop/product-details.html'
     extra_context = {'product_detail': True, 'title': 'Детальная информация'}
 
-
-# class SearchResultView(ListView):
-#     """
-#     ...
-#     """
-#     model = Product
-#     template_name = 'search_result.html'
-#     context_object_name = 'products'
-#
-#     def get_queryset(self):
-#         queryset = super().get_queryset()
-#         form = SearchForm(self.request.GET)
-#
-#         if 'query' in self.request.GET and form.is_valid():
-#             query = form.cleaned_data['query']
-#             queryset = Product.objects.filter(name__search=query)
-#             # queryset = Product.objects.annotate(
-#             #     similarity=TrigramSimilarity('name', query),
-#             # ).filter(similarity__gt=0.1).order_by('-similarity')
-#         return queryset
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['form'] = SearchForm(self.request.GET)
-#
-#         if 'query' in self.request.GET:
-#             context['query'] = self.request.GET.get('query')
-#
-#         return context
 
 class SearchResultView(ListView):
     """
     Представление для показа товаров которых пользователь запросил в поле поиска
     Поиск происходит по триграммному сходству
     """
-    template_name = 'search_result.html'
+    template_name = 'shop/search_result.html'
     context_object_name = 'products'
 
     def get_queryset(self):
@@ -170,11 +141,11 @@ class SearchResultView(ListView):
         return context
 
 
-class CheckoutView(TemplateView):
-    template_name = 'checkout.html'
-    extra_context = {'checkout': True}
-
-
-class CartView(TemplateView):
-    template_name = 'cart.html'
-    extra_context = {'cart': True}
+# class CheckoutView(TemplateView):
+#     template_name = 'shop/checkout.html'
+#     extra_context = {'checkout': True}
+#
+#
+# class CartView(TemplateView):
+#     template_name = 'shop/cart.html'
+#     extra_context = {'cart': True}

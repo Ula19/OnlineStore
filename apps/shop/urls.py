@@ -13,7 +13,7 @@ urlpatterns = [
     path('product_detail/<slug:slug>', views.ProductDetailView.as_view(), name='product_detail'),
 
 
-    path('checkout/', views.CheckoutView.as_view(), name='checkout'),
-    path('cart/', views.CartView.as_view(), name='cart'),
+    # path('checkout/', views.CheckoutView.as_view(), name='checkout'),
+    # path('cart/', views.CartView.as_view(), name='cart'),
     path('', views.IndexView.as_view(), name='index'),
 ]
