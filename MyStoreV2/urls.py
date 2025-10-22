@@ -27,8 +27,6 @@ urlpatterns = [
 
     path('oauth/', include('social_django.urls', namespace='social')),
 
-    path('__debug__/', include('debug_toolbar.urls')),
-
     path('', include('apps.shop.urls')),
 ]
 

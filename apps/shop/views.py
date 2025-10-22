@@ -32,14 +32,47 @@ class ProductListView(ListView):
         ordering - Динамически определяет сортировку
         ...
         """
+        # Получаем параметры
         ordering = self.request.GET.get('ordering', self.ordering)
-        queryset = cache.get_or_set('cashed_product_list', Product.objects.select_related('category', 'brand').order_by(ordering))
         slug = self.kwargs.get('slug')
+        price_min = self.request.GET.get('price_min')
+        price_max = self.request.GET.get('price_max')
+
+        # Создаем уникальный ключ для кэша
+        cache_key = f"products_{slug}_{price_min}_{price_max}_{ordering}"
+
+        # Пробуем получить из кэша
+        cached_queryset = cache.get(cache_key)
+        if cached_queryset is not None:
+            return cached_queryset
+
+        # Начинаем с базового queryset
         if slug:
-            self.category = get_object_or_404(Category, slug=self.kwargs['slug'])
-            queryset = cache.get_or_set('cashed_product_list_by_category',
-                                        Product.objects.filter(category=self.category).order_by(ordering), 100)
-            # queryset = Product.objects.filter(category=self.category).order_by(ordering)
+            self.category = get_object_or_404(Category, slug=slug)
+            queryset = Product.objects.filter(category=self.category)
+        else:
+            queryset = Product.objects.all()
+
+        print(f"DEBUG: slug={slug}, price_min={price_min}, price_max={price_max}, ordering={ordering} ||| cashed={cache_key}")
+
+        # Добавляем select_related для оптимизации
+        queryset = queryset.select_related('category', 'brand')
+
+        # Применяем фильтрацию по цене
+        if price_min and price_max:
+            try:
+                price_min = float(price_min)
+                price_max = float(price_max)
+                queryset = queryset.filter(price__gte=price_min, price__lte=price_max)
+            except (ValueError, TypeError):
+                pass
+
+        # Применяем сортировку
+        queryset = queryset.order_by(ordering)
+
+        # Сохраняем в кэш на 5 минут
+        cache.set(cache_key, queryset, 300)
+
         return queryset
     
     def get_paginate_by(self, queryset):
@@ -54,6 +87,7 @@ class ProductListView(ListView):
         context['title'] = 'Товары'
 
         context['categories'] = Category.objects.all()
+        context['select_category'] = self.kwargs.get('slug')
         context['brands'] = Brand.objects.all()
 
         context['ordering'] = self.request.GET.get('ordering', self.ordering)

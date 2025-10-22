@@ -81,50 +81,16 @@
                     <li {% if shop %}class="active"{% endif %}><a href="{% url 'product_list' %}">Shop</a></li>
                     <li {% if cart %}class="active"{% endif %}><a href="{% url 'cart' %}">Cart</a></li>
                     <li {% if checkout %}class="active"{% endif %}><a href="{% url 'checkout' %}">Checkout</a></li>
+                    {% if not user.is_authenticated %}
+                    <li {% if login %}class="active"{% endif %}><a href="{% url 'login' %}">Войти</a></li>
+                    <li {% if register %}class="active"{% endif %}><a href="{% url 'register' %}">Регистрация</a></li>
+                    {% else %}
+                    <li {% if profile %}class="active"{% endif %}><a href="{% url 'profile' %}">Account</a></li>
+                    {% endif %}
+                    {% if user.is_superuser %}
+                    <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                    {% endif %}
                 </ul>
-
-                <!-- В навигационной панели -->
-                {% if user.is_authenticated %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="{% url 'profile' %}" role="button" data-bs-toggle="dropdown">
-                            {{ user.username }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            {% if user.is_authenticated and user.is_staff %}
-                                <a href="{% url 'admin:index' %}"
-                                   class="btn btn-warning position-relative"
-                                   target="_blank"
-                                   style="background: linear-gradient(135deg, #ffc107, #e0a800); border: none;">
-                                    <i class="bi bi-speedometer2 me-2"></i>
-                                    Админ панель
-                                    {% if user.is_superuser %}
-                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            Super
-                                        </span>
-                                    {% endif %}
-                                </a>
-                            <li><hr class="dropdown-divider"></li>
-                            {% endif %}
-                            <li><a class="dropdown-item" href="{% url 'profile' %}">Профиль</a></li>
-                            <li><a class="dropdown-item" href="{% url 'profile_edit' %}">Редактировать профиль</a></li>
-                            <li><a class="dropdown-item" href="{% url 'password_change' %}">Сменить пароль</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <form action="{% url 'logout' %}" method="post">
-                                    {% csrf_token %}
-                                    <a href="#" class="btn btn-outline-danger" onclick="parentNode.submit();">
-                                        <i class="bi bi-box-arrow-right"></i>Выйти
-                                    </a>
-                            </form>
-                        </ul>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Войти</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
-                    </li>
-                {% endif %}
             </nav>
 
             <!-- Button Group -->
@@ -142,7 +108,7 @@
             </div>
             <!-- Social Button -->
             <div class="social-info d-flex justify-content-between">
-                <a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-google" aria-hidden="true"></i></a>
                 <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                 <a href="#"><i class="fa fa-telegram" aria-hidden="true"></i></a>
                 <a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a>

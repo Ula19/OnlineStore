@@ -11,56 +11,63 @@
                 </div>
                 <div class="card-body">
                     <form method="post">
-                        {% csrf_token %}
+                        <div class="row">
+                            {% csrf_token %}
 
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div class="alert alert-{{ message.tags }}">
-                                    {{ message }}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    Неверный email или пароль. Пожалуйста, попробуйте снова.
                                 </div>
-                            {% endfor %}
-                        {% endif %}
+                            {% endif %}
 
-                        {% if form.errors %}
-                            <div class="alert alert-danger">
-                                Неверный email или пароль. Пожалуйста, попробуйте снова.
+                            <!-- Поле для email (это form.username в форме) -->
+<!--                            <div class="mb-3">-->
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">Email</label>
+                                {{ form.username }}
+<!--                                    <input type="email" name="username" class="form-control" id="first_name" placeholder="Введите ваш email" required>-->
+                                {% if form.username.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.username.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
-                        {% endif %}
 
-                        <!-- Поле для email (это form.username в форме) -->
-                        <div class="mb-3">
-                            <label for="{{ form.username.id_for_label }}" class="form-label">Email</label>
-                            {{ form.username }}
-                            {% if form.username.errors %}
-                                <div class="text-danger small">
-                                    {% for error in form.username.errors %}
-                                        {{ error }}
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
+                            <!-- Поле для пароля -->
+<!--                            <div class="mb-3">-->
+                            <div class="col-12 mb-3">
+                                <label for="{{ form.password.id_for_label }}" class="form-label">Пароль</label>
+<!--                                {{ form.password }}-->
+                                    <input type="password" name="password" autocomplete="current-password" class="form-control" id="id_password" placeholder="Введите пароль" required>
+                                {% if form.password.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.password.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+<!--                            <div class="mb-3">-->
+                            <div class="col-12 mb-3">
+                                {{ form.recaptcha }}
+                                {% if form.recaptcha.errors %}
+                                    <div class="text-danger small">{{ form.recaptcha.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">Войти</button>
                         </div>
-
-                        <!-- Поле для пароля -->
-                        <div class="mb-3">
-                            <label for="{{ form.password.id_for_label }}" class="form-label">Пароль</label>
-                            {{ form.password }}
-                            {% if form.password.errors %}
-                                <div class="text-danger small">
-                                    {% for error in form.password.errors %}
-                                        {{ error }}
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            {{ form.recaptcha }}
-                            {% if form.recaptcha.errors %}
-                                <div class="text-danger small">{{ form.recaptcha.errors }}</div>
-                            {% endif %}
-                      </div>
-
-                        <button type="submit" class="btn btn-primary w-100">Войти</button>
                     </form>
 
                     <div class="text-center mt-3">

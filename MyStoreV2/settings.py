@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-faf^_8a5&y9#1es0-^)rc&a2_^!$hr_tlnk$f=qtmd!(z51#_w'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -96,9 +98,9 @@ WSGI_APPLICATION = 'MyStoreV2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mystoreprod',
-        'USER': 'petprojects',
-        'PASSWORD': 'patronus',
+        'NAME': os.getenv('DATABASES_NAME'),
+        'USER': os.getenv('DATABASES_USER'),
+        'PASSWORD': os.getenv('DATABASES_PASSWORD'),
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -186,8 +188,8 @@ LOGIN_URL = 'login'           # страница для входа
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ulug.2000.2@gmail.com'
-EMAIL_HOST_PASSWORD = 'evup rqpw uuts cgqd'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
@@ -203,12 +205,12 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # social auth configs for google
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '663377030560-c797uvbv7bh6v19g8o8vr5ht77febgk8.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
 
-RECAPTCHA_PUBLIC_KEY = '6LepLZorAAAAAPiZtZ_TKkIY-Gdo5RcyumcA7XXy'
-RECAPTCHA_PRIVATE_KEY = '6LepLZorAAAAAKvUtuYxByppwJPBp0rUquAsQAJo'
+RECAPTCHA_PUBLIC_KEY = os.getenv('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY')
 
 
 REDIS_HOST = '127.0.0.1'

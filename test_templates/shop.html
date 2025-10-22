@@ -14,7 +14,7 @@
                 <ul>
                     <li><a href="{% url 'product_list' %}">All</a></li>
                     {% for category in categories %}
-                    <li><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
+                    <li {% if category.slug == select_category %} class="active" {% endif %} ><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
 <!--                    <li class="active"><a href="#">Beds</a></li>-->
                     {% endfor %}
                 </ul>
@@ -40,20 +40,42 @@
 
         <!-- ##### Price Widget ##### -->
         <div class="widget price mb-50">
-            <!-- Widget Title -->
-            <h6 class="widget-title mb-30">Price</h6>
+    <!-- Widget Title -->
+    <h6 class="widget-title mb-30">Price</h6>
 
-            <div class="widget-desc">
-                <div class="slider-range">
-                    <div data-min="10" data-max="1000" data-unit="$" class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" data-value-min="10" data-value-max="1000" data-label-result="">
-                        <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
-                        <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
-                        <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
-                    </div>
-                    <div class="range-price">$100 - $100,000</div>
+    <div class="widget-desc">
+        <form method="get" id="price-form">
+            <!-- Скрытые поля для сохранения других параметров -->
+            <input type="hidden" name="ordering" value="{{ ordering }}">
+            <input type="hidden" name="paginate_by" value="{{ paginate_by }}">
+            <input type="hidden" name="brand" value="{{ selected_brands|join:',' }}">
+
+            <!-- Скрытые поля для цен -->
+            <input type="hidden" name="price_min" id="price_min" value="{{ request.GET.price_min|default:100 }}">
+            <input type="hidden" name="price_max" id="price_max" value="{{ request.GET.price_max|default:50000 }}">
+
+            <div class="slider-range">
+                <div data-min="100" data-max="50000" data-unit="$"
+                     class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"
+                     data-value-min="{{ request.GET.price_min|default:100 }}"
+                     data-value-max="{{ request.GET.price_max|default:50000 }}"
+                     data-label-result="">
+                    <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
+                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+                </div>
+                <div class="range-price" id="range-price-display">
+                    ${{ request.GET.price_min|default:100 }} - ${{ request.GET.price_max|default:50000 }}
                 </div>
             </div>
-        </div>
+
+            <!-- Кнопка применения фильтра (опционально) -->
+            <button type="submit" class="btn btn-primary btn-sm mt-2" style="display: none;" id="price-submit">
+                Применить фильтр по цене
+            </button>
+        </form>
+    </div>
+</div>
     </div>
 
     <div class="amado_product_area section-padding-100">
@@ -178,4 +200,37 @@
             </div>
         </div>
     </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
+<script>
+$(document).ready(function() {
+    // Инициализация слайдера
+    $(".slider-range-price").slider({
+        range: true,
+        min: 100,
+        max: 50000,
+        values: [{{ request.GET.price_min|default:100 }}, {{ request.GET.price_max|default:50000 }}],
+        slide: function(event, ui) {
+            // Обновляем отображение диапазона
+            $("#range-price-display").text("$" + ui.values[0] + " - $" + ui.values[1]);
+
+            // Обновляем значения в скрытых полях
+            $("#price_min").val(ui.values[0]);
+            $("#price_max").val(ui.values[1]);
+        },
+        stop: function(event, ui) {
+            // Автоматически отправляем форму при отпускании ползунка
+            $("#price-form").submit();
+        }
+    });
+
+    // Инициализация отображения при загрузке
+    var currentMin = {{ request.GET.price_min|default:100 }};
+    var currentMax = {{ request.GET.price_max|default:50000 }};
+    $("#range-price-display").text("$" + currentMin + " - $" + currentMax);
+});
+</script>
 {% endblock %}
