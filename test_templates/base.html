@@ -178,16 +178,16 @@ Copyright &copy;2025 All rights reserved | This template is made with <i class="
                                 </button>
                                 <div class="collapse navbar-collapse" id="footerNavContent">
                                     <ul class="navbar-nav ml-auto">
-                                        <li class="nav-item active">
+                                        <li class="nav-item {% if index %}active{% endif %}">
                                             <a class="nav-link" href="{% url 'index' %}">Home</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'product_list' %">Shop</a>
+                                        <li class="nav-item {% if shop %}active{% endif %}">
+                                            <a class="nav-link" href="{% url 'product_list' %}">Shop</a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item {% if cart %}active{% endif %}">
                                             <a class="nav-link" href="{% url 'cart' %}">Cart</a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item {% if checkout %}active{% endif %}">
                                             <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
                                         </li>
                                     </ul>

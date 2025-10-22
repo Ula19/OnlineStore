@@ -53,8 +53,6 @@ class ProductListView(ListView):
         else:
             queryset = Product.objects.all()
 
-        print(f"DEBUG: slug={slug}, price_min={price_min}, price_max={price_max}, ordering={ordering} ||| cashed={cache_key}")
-
         # Добавляем select_related для оптимизации
         queryset = queryset.select_related('category', 'brand')
 
