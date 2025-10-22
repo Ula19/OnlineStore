@@ -79,8 +79,8 @@
                 <ul>
                     <li {% if index %}class="active"{% endif %}><a href="{% url 'index' %}">Home</a></li>
                     <li {% if shop %}class="active"{% endif %}><a href="{% url 'product_list' %}">Shop</a></li>
-                    <li {% if cart %}class="active"{% endif %}><a href="{% url 'cart' %}">Cart</a></li>
-                    <li {% if checkout %}class="active"{% endif %}><a href="{% url 'checkout' %}">Checkout</a></li>
+<!--                    <li {% if cart %}class="active"{% endif %}><a href="{% url 'cart' %}">Cart</a></li>-->
+<!--                    <li {% if checkout %}class="active"{% endif %}><a href="{% url 'checkout' %}">Checkout</a></li>-->
                     {% if not user.is_authenticated %}
                     <li {% if login %}class="active"{% endif %}><a href="{% url 'login' %}">Войти</a></li>
                     <li {% if register %}class="active"{% endif %}><a href="{% url 'register' %}">Регистрация</a></li>
@@ -184,11 +184,11 @@ Copyright &copy;2025 All rights reserved | This template is made with <i class="
                                         <li class="nav-item {% if shop %}active{% endif %}">
                                             <a class="nav-link" href="{% url 'product_list' %}">Shop</a>
                                         </li>
-                                        <li class="nav-item {% if cart %}active{% endif %}">
-                                            <a class="nav-link" href="{% url 'cart' %}">Cart</a>
-                                        </li>
-                                        <li class="nav-item {% if checkout %}active{% endif %}">
-                                            <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
+<!--                                        <li class="nav-item {% if cart %}active{% endif %}">-->
+<!--                                            <a class="nav-link" href="{% url 'cart' %}">Cart</a>-->
+<!--                                        </li>-->
+<!--                                        <li class="nav-item {% if checkout %}active{% endif %}">-->
+<!--                                            <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>-->
                                         </li>
                                     </ul>
                                 </div>
