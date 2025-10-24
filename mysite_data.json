@@ -1,49 +1,5 @@
 [
 {
-  "model": "accounts.customuser",
-  "pk": 1,
-  "fields": {
-    "password": "pbkdf2_sha256$1000000$7sgCm47QNKlZQmlYmwNNv4$Th4X7lzA1KRLxwGizI5xaYNb1Mr+rTXl4JjRDfIY+IE=",
-    "last_login": "2025-10-24T18:34:52.578Z",
-    "is_superuser": true,
-    "first_name": "",
-    "last_name": "",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2025-10-22T11:05:12.843Z",
-    "email": "admin@mail.ru",
-    "username": "admin",
-    "avatar": "user_avatars/admin.png",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "accounts.customuser",
-  "pk": 2,
-  "fields": {
-    "password": "!mGYJ0h4bL5fY5lztGkhrIKd9i4s1PNxR6lmAlHvy",
-    "last_login": "2025-10-24T18:13:41.992Z",
-    "is_superuser": false,
-    "first_name": "ulugbek",
-    "last_name": "toshev",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2025-10-22T20:54:15Z",
-    "email": "ulug.2000.2@gmail.com",
-    "username": "ulug.2000.2",
-    "avatar": "images/default_user.png",
-    "groups": [],
-    "user_permissions": [
-      29,
-      30,
-      31,
-      32,
-      33
-    ]
-  }
-},
-{
   "model": "admin.logentry",
   "pk": 1,
   "fields": {
@@ -210,32 +166,6 @@
     "object_repr": "тествовый товар 1",
     "action_flag": 2,
     "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u043a\\u0442\\u0438\\u0432\\u043d\\u044b\\u0439 \\u0442\\u043e\\u0432\\u0430\\u0440\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 14,
-  "fields": {
-    "action_time": "2025-10-24T18:10:59.529Z",
-    "user": 1,
-    "content_type": 2,
-    "object_id": "2",
-    "object_repr": "ulug.2000.2@gmail.com",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"Staff status\"]}}]"
-  }
-},
-{
-  "model": "admin.logentry",
-  "pk": 15,
-  "fields": {
-    "action_time": "2025-10-24T18:13:00.088Z",
-    "user": 1,
-    "content_type": 2,
-    "object_id": "2",
-    "object_repr": "ulug.2000.2@gmail.com",
-    "action_flag": 2,
-    "change_message": "[{\"changed\": {\"fields\": [\"User permissions\"]}}]"
   }
 },
 {
@@ -1438,23 +1368,6 @@
     "image1": "products/image1/DS-2CD2421G0-first.jpg",
     "image2": "products/image2/DS-2CD2421G0-second.jpg",
     "image3": "products/image3/DS-2CD2421G0-third.jpg"
-  }
-},
-{
-  "model": "social_django.usersocialauth",
-  "pk": 1,
-  "fields": {
-    "user": 2,
-    "provider": "google-oauth2",
-    "uid": "ulug.2000.2@gmail.com",
-    "extra_data": {
-      "expires": 3598,
-      "auth_time": 1761329621,
-      "token_type": "Bearer",
-      "access_token": "ya29.A0ATi6K2uNviak5ITSoUbeq879UUfkwgfWBungC8GS13mTATs2z8vSgd5fkZJL8bUGUlJqkuAP3t8qlndV6FtaGlq6rj1sJEbU8vBUjSkkwVerx8kT6t10yVrAI5KwfYHatECs9yDDvOklZcDkD79UjuD4b1yuvAbFCJqFIac2xNbhk22s4_lCTr93OhgvadjPAPJ3qXc6aHnlbKNujOmllbTfo9nVgpueRLeLv1l5ID65pSS4MKBlbgkkgLUUj9REXZPqkdIwWWFHB4daacm8zhhkV6wFaCgYKAS0SARISFQHGX2MiUmmQ9VIKHw-Uq5MDMkUXaA0291"
-    },
-    "created": "2025-10-22T20:54:15.980Z",
-    "modified": "2025-10-24T18:13:41.982Z"
   }
 }
 ]
