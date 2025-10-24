@@ -147,7 +147,7 @@
                                 <p class="product-price">{{ product.price }}₽</p>
                                 <a href="{{ product.get_absolute_url }}">
                                     <h5>{{ product.category }}</h5>
-                                    <h6>{{ product.name }}</h6>
+                                    <h6>{{ product.brand }} {{ product.name }}</h6>
 
                                 </a>
                             </div>
@@ -205,31 +205,31 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 
 <script>
-₽(document).ready(function() {
+$(document).ready(function() {
     // Инициализация слайдера
-    ₽(".slider-range-price").slider({
+    $(".slider-range-price").slider({
         range: true,
         min: 100,
         max: 50000,
         values: [{{ request.GET.price_min|default:100 }}, {{ request.GET.price_max|default:50000 }}],
         slide: function(event, ui) {
             // Обновляем отображение диапазона
-            ₽("#range-price-display").text("₽" + ui.values[0] + " - ₽" + ui.values[1]);
+            $("#range-price-display").text("₽" + ui.values[0] + " - ₽" + ui.values[1]);
 
             // Обновляем значения в скрытых полях
-            ₽("#price_min").val(ui.values[0]);
-            ₽("#price_max").val(ui.values[1]);
+            $("#price_min").val(ui.values[0]);
+            $("#price_max").val(ui.values[1]);
         },
         stop: function(event, ui) {
             // Автоматически отправляем форму при отпускании ползунка
-            ₽("#price-form").submit();
+            $("#price-form").submit();
         }
     });
 
     // Инициализация отображения при загрузке
     var currentMin = {{ request.GET.price_min|default:100 }};
     var currentMax = {{ request.GET.price_max|default:50000 }};
-    ₽("#range-price-display").text("₽" + currentMin + " - ₽" + currentMax);
+    $("#range-price-display").text("₽" + currentMin + " - ₽" + currentMax);
 });
 </script>
 {% endblock %}
